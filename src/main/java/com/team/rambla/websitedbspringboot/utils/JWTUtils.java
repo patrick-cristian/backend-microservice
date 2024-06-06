@@ -1,6 +1,7 @@
 package com.team.rambla.websitedbspringboot.utils;
 
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -18,11 +19,6 @@ public class JWTUtils {
     @Value("${app.jwtexpire}")
     private int jwtExpire;
 
-    private SecretKey getSigningKey() {
-        byte[] keyBytes = jwtSecret.getBytes();
-        return new SecretKeySpec(keyBytes, "HS512");
-    }
-
     public Boolean validateToken(String token, UserDetails userDetails) {
         String username = getUsernameFromToken(token);
         return username != null && username.equals(userDetails.getUsername());
@@ -34,7 +30,7 @@ public class JWTUtils {
                 .setClaims(claims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpire * 1000))
-                .signWith(getSigningKey())
+                .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
 
