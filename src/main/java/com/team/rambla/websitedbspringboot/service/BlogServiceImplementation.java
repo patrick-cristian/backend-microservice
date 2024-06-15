@@ -3,16 +3,17 @@ package com.team.rambla.websitedbspringboot.service;
 import com.team.rambla.websitedbspringboot.entity.Blog;
 import com.team.rambla.websitedbspringboot.repository.BlogRepository;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BlogServiceImplementation {
 
-    @Autowired
-    private BlogRepository blogRepository;
+    private final BlogRepository blogRepository;
 
     public void createBlog(Blog blog) {
         blogRepository.save(blog);
