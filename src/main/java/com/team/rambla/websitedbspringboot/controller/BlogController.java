@@ -4,9 +4,7 @@ import com.team.rambla.websitedbspringboot.entity.Blog;
 import com.team.rambla.websitedbspringboot.entity.Users;
 import com.team.rambla.websitedbspringboot.service.BlogServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +16,12 @@ public class BlogController {
     @Autowired
     private BlogServiceImplementation blogServiceImplementation;
 
+    @PostMapping()
+    Blog addBlog(@RequestBody Blog blog) {
+        return blogServiceImplementation.addBlog(blog);
+    }
+
+    @GetMapping()
     List<Blog> getAllBlogs() {
         return blogServiceImplementation.getAllBlogs();
     }

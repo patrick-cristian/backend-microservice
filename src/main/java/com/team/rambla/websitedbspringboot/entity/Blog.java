@@ -1,16 +1,15 @@
 package com.team.rambla.websitedbspringboot.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "app_blog")
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,5 +32,11 @@ public class Blog {
     private List<Tags> tags;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Comment> comments;
+
+    @Override
+    public String toString() {
+        return "title: " + title + ", content: " + content + ", author: " + author + ", date: " + date + ", comments: " + comments;
+    }
 }

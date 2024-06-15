@@ -68,4 +68,14 @@ public class BlogServiceImplementation {
             System.out.println(e);
         }
     }
+
+    public Blog addBlog(Blog blog) {
+        try {
+            blogRepository.save(blog);
+            return blog;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
 }
