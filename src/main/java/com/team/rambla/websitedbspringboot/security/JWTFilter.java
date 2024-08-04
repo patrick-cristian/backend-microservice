@@ -29,7 +29,7 @@ public class JWTFilter extends OncePerRequestFilter {
         final String authorizationHeader = request.getHeader("Authorization");
         String jwtToken = null;
         String userName = null;
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ") && !request.getRequestURI().contains("/api/blogs")) {
             jwtToken = authorizationHeader.substring(7);
             try {
                 userName = jwtUtils.getUsernameFromToken(jwtToken);

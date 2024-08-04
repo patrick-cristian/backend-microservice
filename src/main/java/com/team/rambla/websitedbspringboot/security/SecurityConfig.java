@@ -52,7 +52,9 @@ public class SecurityConfig {
                 .addFilterBefore(authenticationJwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .cors(cors->cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request -> {
-                    request.requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated();
+                    request.requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers("/api/blogs/**").permitAll()
+                            .anyRequest().authenticated();
 
                 }).build();
     }

@@ -26,13 +26,12 @@ public class Blog {
     private String excerpt;
 
     @Lob
-    private byte[] image;
+    private String image;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tags> tags;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
     private List<Comment> comments;
 
     @Override
