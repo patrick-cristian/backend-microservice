@@ -1,8 +1,8 @@
 package com.team.rambla.websitedbspringboot.controller;
 
 import com.team.rambla.websitedbspringboot.entity.Blog;
-import com.team.rambla.websitedbspringboot.entity.Users;
-import com.team.rambla.websitedbspringboot.service.BlogServiceImplementation;
+import com.team.rambla.websitedbspringboot.payload.request.BlogPayload;
+import com.team.rambla.websitedbspringboot.service.impl.BlogServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +17,13 @@ public class BlogController {
     private BlogServiceImplementation blogServiceImplementation;
 
     @PostMapping()
-    Blog addBlog(@RequestBody Blog blog) {
+    Blog addBlog(@RequestBody BlogPayload blog) {
         return blogServiceImplementation.addBlog(blog);
     }
 
     @GetMapping()
-    List<Blog> getAllBlogs() {
-        return blogServiceImplementation.getAllBlogs();
+    List<Blog> getAllBlogs(@RequestParam(value = "category", defaultValue = "ALL") String category) {
+        return blogServiceImplementation.getAllBlogs(category);
     }
 
     Blog getBlogByTitle(String title) {
