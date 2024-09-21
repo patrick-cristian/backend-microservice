@@ -1,6 +1,6 @@
 package com.team.rambla.websitedbspringboot.security;
 
-import com.team.rambla.websitedbspringboot.service.UserDetailsServiceImplementation;
+import com.team.rambla.websitedbspringboot.service.impl.UserDetailsServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,10 +49,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(authenticationJwtFilter(), UsernamePasswordAuthenticationFilter.class)
                 .cors(cors->cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(request -> {
                     request.requestMatchers("/api/auth/**").permitAll()
+                            .requestMatchers("/api/categories/**").permitAll()
                             .requestMatchers("/api/blogs/**").permitAll()
                             .anyRequest().authenticated();
 

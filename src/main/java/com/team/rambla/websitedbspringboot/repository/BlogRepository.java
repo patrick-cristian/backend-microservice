@@ -10,4 +10,6 @@ public interface BlogRepository extends JpaRepository<Blog, Long> {
     Boolean existsByTitle(String title);
 
     List<Blog> getBlogsByAuthor(String author);
+
+    List<Blog> getBlogsByCategories_Name(String category);
 }

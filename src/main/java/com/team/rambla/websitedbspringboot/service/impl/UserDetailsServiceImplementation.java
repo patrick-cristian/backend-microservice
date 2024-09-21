@@ -1,4 +1,4 @@
-package com.team.rambla.websitedbspringboot.service;
+package com.team.rambla.websitedbspringboot.service.impl;
 
 import com.team.rambla.websitedbspringboot.entity.Users;
 import com.team.rambla.websitedbspringboot.repository.UserRepository;

@@ -1,19 +1,26 @@
-package com.team.rambla.websitedbspringboot.service;
+package com.team.rambla.websitedbspringboot.service.impl;
 
 import com.team.rambla.websitedbspringboot.entity.Blog;
+import com.team.rambla.websitedbspringboot.entity.Category;
+import com.team.rambla.websitedbspringboot.payload.request.BlogPayload;
 import com.team.rambla.websitedbspringboot.repository.BlogRepository;
 
+import com.team.rambla.websitedbspringboot.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class BlogServiceImplementation {
 
     private final BlogRepository blogRepository;
+    private final CategoryRepository categoryRepository;
 
     public void createBlog(Blog blog) {
         blogRepository.save(blog);
@@ -33,7 +40,10 @@ public class BlogServiceImplementation {
         }
     }
 
-    public List<Blog> getAllBlogs() {
+    public List<Blog> getAllBlogs(String category) {
+        if (!category.equalsIgnoreCase("ALL")) {
+            return blogRepository.getBlogsByCategories_Name(category);
+        }
         return blogRepository.findAll();
     }
 
@@ -69,10 +79,18 @@ public class BlogServiceImplementation {
         }
     }
 
-    public Blog addBlog(Blog blog) {
+    public Blog addBlog(BlogPayload blog) {
         try {
-            blogRepository.save(blog);
-            return blog;
+            Blog blogToSave = new Blog();
+            blogToSave.setAuthor(blog.getAuthor());
+            blogToSave.setDate(blog.getDate());
+            blogToSave.setExcerpt(blog.getExcerpt());
+            blogToSave.setContent(blog.getContent());
+            blogToSave.setImage(blog.getImage());
+            blogToSave.setCategories(new HashSet<>(categoryRepository.findAllById(blog.getCategories())));
+
+            blogRepository.save(blogToSave);
+            return blogToSave;
         } catch (Exception e) {
             System.out.println(e);
         }
