@@ -4,7 +4,9 @@ import com.team.rambla.websitedbspringboot.entity.Blog;
 import com.team.rambla.websitedbspringboot.payload.request.BlogPayload;
 import com.team.rambla.websitedbspringboot.service.impl.BlogServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,13 +19,13 @@ public class BlogController {
     private BlogServiceImplementation blogServiceImplementation;
 
     @PostMapping()
-    Blog addBlog(@RequestBody BlogPayload blog) {
+    Blog addBlog(@RequestPart BlogPayload blog) {
         return blogServiceImplementation.addBlog(blog);
     }
 
     @GetMapping()
-    List<Blog> getAllBlogs(@RequestParam(value = "category", defaultValue = "ALL") String category) {
-        return blogServiceImplementation.getAllBlogs(category);
+    ResponseEntity<?> getAllBlogs(@RequestParam(value = "category", defaultValue = "ALL") String category) {
+        return ResponseEntity.ok(blogServiceImplementation.getAllBlogs(category));
     }
 
     Blog getBlogByTitle(String title) {
@@ -35,7 +37,8 @@ public class BlogController {
         return blogs;
     }
 
-    Blog getBlogById(Long id) {
+    @GetMapping("/details")
+    Blog getBlogById(@RequestParam(name = "id") Long id) {
         return blogServiceImplementation.getBlogById(id);
     }
 

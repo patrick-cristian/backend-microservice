@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -16,9 +17,7 @@ public class BlogPayload {
     private String title;
     private String content;
     private String author;
-    private String date;
     private String excerpt;
     private String image;
     private List<Long> categories;
-
 }

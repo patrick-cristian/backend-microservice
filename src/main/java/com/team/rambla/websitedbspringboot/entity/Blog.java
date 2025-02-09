@@ -1,8 +1,8 @@
 package com.team.rambla.websitedbspringboot.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.catalina.User;
 
 import java.util.List;
 import java.util.Set;
@@ -27,13 +27,16 @@ public class Blog {
     private String excerpt;
 
     @Lob
-    private String image;
+    private byte[] image;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tags> tags;
 
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Users user;
 
     @ManyToMany
     @JoinTable(

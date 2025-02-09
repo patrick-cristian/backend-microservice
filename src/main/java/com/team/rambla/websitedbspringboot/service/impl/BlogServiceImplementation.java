@@ -6,10 +6,13 @@ import com.team.rambla.websitedbspringboot.payload.request.BlogPayload;
 import com.team.rambla.websitedbspringboot.repository.BlogRepository;
 
 import com.team.rambla.websitedbspringboot.repository.CategoryRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +43,7 @@ public class BlogServiceImplementation {
         }
     }
 
+    @Transactional
     public List<Blog> getAllBlogs(String category) {
         if (!category.equalsIgnoreCase("ALL")) {
             return blogRepository.getBlogsByCategories_Name(category);
@@ -79,14 +83,15 @@ public class BlogServiceImplementation {
         }
     }
 
+    @Transactional
     public Blog addBlog(BlogPayload blog) {
+        System.out.println("BLOG RECEIVED:" + blog);
         try {
             Blog blogToSave = new Blog();
             blogToSave.setAuthor(blog.getAuthor());
-            blogToSave.setDate(blog.getDate());
             blogToSave.setExcerpt(blog.getExcerpt());
             blogToSave.setContent(blog.getContent());
-            blogToSave.setImage(blog.getImage());
+            blogToSave.setImage(Base64.getDecoder().decode(blog.getImage()));
             blogToSave.setCategories(new HashSet<>(categoryRepository.findAllById(blog.getCategories())));
 
             blogRepository.save(blogToSave);
