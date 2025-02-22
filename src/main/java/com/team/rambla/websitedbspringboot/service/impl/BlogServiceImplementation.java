@@ -84,16 +84,16 @@ public class BlogServiceImplementation {
     }
 
     @Transactional
-    public Blog addBlog(BlogPayload blog) {
-        System.out.println("BLOG RECEIVED:" + blog);
+    public Blog addBlog(BlogPayload blog, MultipartFile fileImage) {
+        System.out.println("RECEIVED BLOG:" + blog);
         try {
             Blog blogToSave = new Blog();
+            blogToSave.setTitle(blog.getTitle());
             blogToSave.setAuthor(blog.getAuthor());
             blogToSave.setExcerpt(blog.getExcerpt());
             blogToSave.setContent(blog.getContent());
-            blogToSave.setImage(Base64.getDecoder().decode(blog.getImage()));
+            blogToSave.setImage(fileImage.getBytes());
             blogToSave.setCategories(new HashSet<>(categoryRepository.findAllById(blog.getCategories())));
-
             blogRepository.save(blogToSave);
             return blogToSave;
         } catch (Exception e) {
